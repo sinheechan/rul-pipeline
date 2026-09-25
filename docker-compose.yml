@@ -1,0 +1,15 @@
+services:
+  warehouse:
+    image: postgres:16
+    container_name: rul-warehouse
+    environment:
+      POSTGRES_USER: rul
+      POSTGRES_PASSWORD: rul1234
+      POSTGRES_DB: rul
+    ports:
+      - "5433:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./sql:/docker-entrypoint-initdb.d
+volumes:
+  pgdata:

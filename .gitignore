@@ -6,3 +6,4 @@ models/*.pt
 __pycache__/
 .ipynb_checkpoints/
 airflow/logs/
+*:Zone.Identifier
