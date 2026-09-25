@@ -1,0 +1,8 @@
+.venv/
+.env
+data/
+models/*.joblib
+models/*.pt
+__pycache__/
+.ipynb_checkpoints/
+airflow/logs/
