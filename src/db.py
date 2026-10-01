@@ -23,3 +23,14 @@ def replace_rows(df: pd.DataFrame, schema: str, table: str, where: dict) -> int:
         df.to_sql(table, conn, schema=schema, if_exists="append",
                   index=False, method="multi", chunksize=1000)
     return len(df)
+
+import json
+
+def register_model(version, task, algorithm, metrics: dict, params: dict):
+    with get_engine().begin() as conn:
+        conn.execute(text("""
+            INSERT INTO ml.model_registry (model_version, task, algorithm, metrics, params)
+            VALUES (:v, :t, :a, CAST(:m AS JSONB), CAST(:p AS JSONB))
+            ON CONFLICT (model_version) DO NOTHING"""),
+            {"v": version, "t": task, "a": algorithm,
+             "m": json.dumps(metrics), "p": json.dumps(params)})
