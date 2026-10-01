@@ -34,6 +34,11 @@ def clean_unit(u):
 def build_clean(dataset, split):
     raw = read_sql("SELECT * FROM raw.sensor_readings "
                    "WHERE dataset=:d AND split=:s", d=dataset, s=split)
+
+    if raw.empty:
+        print(f"[clean] {split}: raw 데이터가 없어 건너뜀")
+        return raw
+    
     parts, spikes = [], 0
     for _, u in raw.groupby("unit_id"):
         c, k = clean_unit(u)
